@@ -13,12 +13,19 @@ anwendbar! Bitte suchen Sie einen Audiologen auf!
 
 """
 
-# Jangan ganti settingan input di settings
+"""
+Jangan ganti settingan input di settings
+Output audio biarkan jd Output Analog (default) nya linux
+Play suara ga kedengaran kalo linux, kalo jalankan program bisa
+Utk menghindari sounddevice.PortAudioError: Error opening OutputStream: Invalid number of channels [PaErrorCode -9998]
+
+""" 
 
 import sys
 import logging
 from audiometer import controller
 from audiometer import audiogram
+import time
 # from audiometer import play_prompt
 # from pygame import mixer
 
@@ -50,19 +57,23 @@ class AscendingMethod:
     def familiarization(self):
         logging.info("Begin Familiarization")
 
-        print("\nSet a clearly audible tone "
-              "via the arrow keys (left & right) on the keyboard.\nConfirm "
-              "with the Space Key\n")
+        # print("\nSet a clearly audible tone "
+        #       "via the arrow keys (left & right) on the keyboard.\nConfirm "
+        #       "with the Space Key\n")
+        print("\nContoh bunyi frekuensi tes\n")
+        
 
         self.current_level = self.ctrl.audibletone(
                              self.freq,
                              self.ctrl.config.beginning_fam_level,
                              self.earside)
 
-        print('pada frekuensi : ',self.freq)
-        print("\nTo begin, click once")
+        print('Frekuensi tes : ',self.freq)
+        # print("\nTo begin, click once")
+        print("\nTes dimulai")
+        time.sleep(2)
         
-        self.ctrl.wait_for_click()
+        # self.ctrl.wait_for_click()
 
         while self.click:
             logging.info("-%s", self.ctrl.config.large_level_decrement)
@@ -122,6 +133,8 @@ class AscendingMethod:
         if not self.ctrl.config.logging:
             logging.disable(logging.CRITICAL)
 
+        self.ctrl.intro_program()
+
         for self.earside in self.ctrl.config.earsides:
             for self.freq in self.ctrl.config.freqs:
                 logging.info('freq:%s earside:%s', self.freq, self.earside)
@@ -129,7 +142,7 @@ class AscendingMethod:
                     self.hearing_test()
                     self.ctrl.save_results(self.current_level, self.freq,
                                            self.earside)
-
+                    
                 except OverflowError:
                     print("The signal is distorted. Possible causes are "
                           "an incorrect calibration or a severe hearing "
@@ -137,20 +150,27 @@ class AscendingMethod:
                     self.current_level = None
                     continue
 
-                except KeyboardInterrupt:
-                    sys.exit('\nInterrupted by user')
+                # except KeyboardInterrupt:
+                #     # keluar setelah familiarization
+                #     sys.exit('\nInterrupted by user')
 
     def __enter__(self):
         return self
 
     def __exit__(self, *args):
+        self.ctrl.ending_program()
         self.ctrl.__exit__()
         audiogram.make_audiogram(self.ctrl.config.filename,
                                  self.ctrl.config.results_path)
 
 if __name__ == '__main__':
     # mixer.init()
-    with AscendingMethod() as asc_method:
-        asc_method.run()
+    try:
+        with AscendingMethod() as asc_method:
+            asc_method.run()
+    
+    except KeyboardInterrupt:
+        # keluar setelah familiarization
+        sys.exit('\nInterrupted by user')
 
     print("Finished!")

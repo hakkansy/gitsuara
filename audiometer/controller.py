@@ -16,7 +16,7 @@ def config():
         "--device", help='How to select your soundcard is '
         'shown in http://python-sounddevice.readthedocs.org/en/0.3.3/'
         '#sounddevice.query_devices', type=int, default=None)
-    parser.add_argument("--beginning-fam-level", type=float, default=40,
+    parser.add_argument("--beginning-fam-level", type=float, default=60,
                         help="in dBHL")
     parser.add_argument("--attack", type=float, default=30)
     parser.add_argument("--release", type=float, default=40)
@@ -41,8 +41,13 @@ def config():
     parser.add_argument("--small-level-decrement", type=float, default=10)
     parser.add_argument("--large-level-decrement", type=float, default=20)
     parser.add_argument("--start-level-familiar", type=float, default=-40)
-    parser.add_argument("--freqs", type=float, nargs='+', default=[1000, 1500,
-                        2000, 3000, 4000, 6000, 8000, 750, 500, 250, 125],
+    # parser.add_argument("--freqs", type=float, nargs='+', default=[1000, 1500,
+    #                     2000, 3000, 4000, 6000, 8000, 750, 500, 250, 125],
+    #                     help='The size '
+    #                     'and number of frequencies are shown in'
+    #                     'DIN60645-1 ch. 6.1.1. Their order'
+    #                     'are described in ISO8253-1 ch. 6.1')
+    parser.add_argument("--freqs", type=float, nargs='+', default=[1000, 4000],
                         help='The size '
                         'and number of frequencies are shown in'
                         'DIN60645-1 ch. 6.1.1. Their order'
@@ -169,24 +174,41 @@ class Controller:
                                         self.config.pause_time[1]))
             return False
 
+    # def audibletone(self, freq, current_level_dBHL, earside):
+    #     self.key = ''
+    #     while self.key != 'space':
+    #         if self.dBHL2dBFS(freq, current_level_dBHL) > 0:
+    #             print("WARNING: Signal is distorted. Decrease the current "
+    #                 "level!")
+    #         self._audio.start(freq,
+    #                         self.dBHL2dBFS(freq, current_level_dBHL),
+    #                         earside)
+    #         self.key = self._rpd.wait_for_arrow()
+    #         if self.key == 'arrow_left':
+    #             current_level_dBHL -= 5
+    #             print(current_level_dBHL)
+    #         if self.key == 'arrow_right':
+    #             current_level_dBHL += 5
+    #             print(current_level_dBHL)
+    #         self._audio.stop()
+            
+    #     return current_level_dBHL
+    
     def audibletone(self, freq, current_level_dBHL, earside):
-        self.key = ''
-        while self.key != 'space':
-            if self.dBHL2dBFS(freq, current_level_dBHL) > 0:
-                print("WARNING: Signal is distorted. Decrease the current "
-                      "level!")
-            self._audio.start(freq,
-                              self.dBHL2dBFS(freq, current_level_dBHL),
-                              earside)
-            self.key = self._rpd.wait_for_arrow()
-            if self.key == 'arrow_left':
-                current_level_dBHL -= 5
-                print(current_level_dBHL)
-            if self.key == 'arrow_right':
-                current_level_dBHL += 5
-                print(current_level_dBHL)
-            self._audio.stop()
-
+    
+        self._audio.start(freq,
+                        self.dBHL2dBFS(freq, current_level_dBHL),
+                        earside)
+        # self.key = self._rpd.wait_for_arrow()
+        # if self.key == 'arrow_left':
+        #     current_level_dBHL -= 5
+        #     print(current_level_dBHL)
+        # if self.key == 'arrow_right':
+        #     current_level_dBHL += 5
+        #     print(current_level_dBHL)
+        time.sleep(5)
+        self._audio.stop()
+        
         return current_level_dBHL
 
     def wait_for_click(self):
@@ -211,3 +233,37 @@ class Controller:
         self._rpd.__exit__()
         self._audio.close()
         self.csvfile.close()
+
+    # def input_name(self):
+    #     self.nama = input()
+    #     print('Inputkan nama:', self.nama)
+    
+    def intro_program(self):
+        # print('Selamat datang di program uji pendengaran \nMohon inputkan nama')
+        # nama = input()
+        # print('Nama : ', nama)
+              
+        print('=============================')
+        print('Selamat datang di program uji pendengaran \nUntuk memulai ucapkan Lanjutkan\nUntuk membatalkan ucapkan Tidak')
+        print('=============================')
+
+        respon = ""        
+        while respon != "Lanjutkan":
+            # memainkan suara
+            print('Silahkan bicara')
+            respon = get_prediction(self.kss,self.audio, self.stream)
+            print('respon : ', respon)
+            if respon == "Tidak":
+                exit()
+
+    def ending_program(self):
+        print('Program selesai \nUntuk mengakhiri program, ucapkan Stop')
+
+        respon = ""        
+        while respon != "Stop":
+            # memainkan suara
+            print('Silahkan bicara')
+            respon = get_prediction(self.kss,self.audio, self.stream)
+            print('respon : ', respon)        
+
+
