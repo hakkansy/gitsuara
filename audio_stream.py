@@ -9,7 +9,13 @@ class Audio:
         WAVE_OUTPUT_FILENAME = "recordedFile.wav"
         self.audio = pyaudio.PyAudio()
 
-        device_index = 0
+        # device_index = 0
+        # spidf
+        device_index = 29
+        # menggunakan headset bapak pulse, input gak bisa
+        # device_index = 31 
+        # sidf
+        # device_index = 32
 
         self.stream = self.audio.open(format=FORMAT, channels=CHANNELS,
                 rate=RATE, input=True,input_device_index = device_index,

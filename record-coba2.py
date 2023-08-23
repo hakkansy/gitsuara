@@ -129,7 +129,7 @@ if __name__ == "__main__":
     
     audio = pyaudio.PyAudio()
 
-    device_index = 25
+    device_index = 38
 
     stream = audio.open(format=FORMAT, channels=CHANNELS,
             rate=RATE, input=True,input_device_index = device_index,

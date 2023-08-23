@@ -45,6 +45,17 @@ def set_audiogram_parameters(dBHL, freqs, conduction, masking, earside,
     ax.invert_yaxis()
     ax.tick_params(axis='x', labelsize=6.5)
     ax.tick_params(axis='y', labelsize=6.5)
+
+    # membuat legend
+    my_text = '0-25 dB  = Normal\n25-40 dB = Ringan\n40-55 dB = Sedang\n55-70 dB = Menengah\n70-90 dB = Parah\n>90 dB  = Akut'
+    
+    props = dict(boxstyle='round', facecolor='ivory', alpha=0.15)  # bbox features
+    left, width = .1, .5
+    bottom, height = .25, .5
+    ax.text(left, bottom, my_text, 
+            transform=ax.transAxes, fontsize=8, 
+            horizontalalignment='left' ,verticalalignment='top', bbox=props)
+        
     #  one octave on the frequency axis shall correspond
     #  to 20 dB on the hearing level axis (ISO 8253-1 (2011) ch. 10)
     ax.set_aspect(0.9 / ax.get_data_ratio())
@@ -109,7 +120,7 @@ def make_audiogram(filename, results_path=None):
             dBHL, freqs = _extract_parameters(data, 'left')
             set_audiogram_parameters(dBHL, freqs, conduction, masking,
                                      earside='left', ax=ax2)
-
+        
         f.savefig('{}{}.pdf'.format(results_path, filename))
 
 

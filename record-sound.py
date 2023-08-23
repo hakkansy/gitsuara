@@ -129,7 +129,11 @@ if __name__ == "__main__":
     
     audio = pyaudio.PyAudio()
 
-    device_index = 0
+    device_index = 20
+    # bisa in out tapi predict jelek
+    # device_index = 25
+    # device_index = 30
+
 
     stream = audio.open(format=FORMAT, channels=CHANNELS,
             rate=RATE, input=True,input_device_index = device_index,

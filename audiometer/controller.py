@@ -47,7 +47,7 @@ def config():
     #                     'and number of frequencies are shown in'
     #                     'DIN60645-1 ch. 6.1.1. Their order'
     #                     'are described in ISO8253-1 ch. 6.1')
-    parser.add_argument("--freqs", type=float, nargs='+', default=[1000, 4000],
+    parser.add_argument("--freqs", type=float, nargs='+', default=[1000],
                         help='The size '
                         'and number of frequencies are shown in'
                         'DIN60645-1 ch. 6.1.1. Their order'
