@@ -37,22 +37,25 @@ logging.basicConfig(level=logging.DEBUG, format='%(levelname)s:%(message)s',
 
 class AscendingMethod:
 
-    def __init__(self):
+    def __init__(self, socketio):
         self.ctrl = controller.Controller()
         self.current_level = 0
         self.click = True
+        # self.data_output = data_output
+        self.socketio = socketio
+        print("--------------------ASCENDING SESSION INIT----------------------")
        
     def decrement_click(self, level_decrement):
 
         self.current_level -= level_decrement
         self.click = self.ctrl.clicktone(self.freq, self.current_level,
-                                         self.earside)
+                                         self.earside, self.socketio)
 
     def increment_click(self, level_increment):
 
         self.current_level += level_increment
         self.click = self.ctrl.clicktone(self.freq, self.current_level,
-                                         self.earside)
+                                         self.earside, self.socketio)
 
     def familiarization(self):
         logging.info("Begin Familiarization")
@@ -61,6 +64,7 @@ class AscendingMethod:
         #       "via the arrow keys (left & right) on the keyboard.\nConfirm "
         #       "with the Space Key\n")
         print("\nContoh bunyi frekuensi tes\n")
+        self.socketio.emit('display_text',"Contoh bunyi frekuensi tes")
         
 
         self.current_level = self.ctrl.audibletone(
@@ -69,8 +73,9 @@ class AscendingMethod:
                              self.earside)
 
         print('Frekuensi tes : ',self.freq)
-        # print("\nTo begin, click once")
+        self.socketio.emit('display_text',self.freq)
         print("\nTes dimulai")
+        self.socketio.emit('display_text',"Tes dimulai")
         time.sleep(2)
         
         # self.ctrl.wait_for_click()
@@ -85,6 +90,7 @@ class AscendingMethod:
 
     def hearing_test(self):
         self.familiarization()
+        print('=========================================FAMILIARIZATION=========================================')
         # play_prompt.run('perintah.mpga')
 
         logging.info("End Familiarization: -%s",
@@ -129,11 +135,11 @@ class AscendingMethod:
 
     def run(self):
         # mixer.init()
-
+        print("-------------------------------RUN SESSION----------------------------------")
         if not self.ctrl.config.logging:
             logging.disable(logging.CRITICAL)
 
-        self.ctrl.intro_program()
+        self.ctrl.intro_program(self.socketio)
 
         for self.earside in self.ctrl.config.earsides:
             for self.freq in self.ctrl.config.freqs:
@@ -158,19 +164,21 @@ class AscendingMethod:
         return self
 
     def __exit__(self, *args):
-        self.ctrl.ending_program()
-        self.ctrl.__exit__()
-        audiogram.make_audiogram(self.ctrl.config.filename,
-                                 self.ctrl.config.results_path)
+        while True:
+            self.ctrl.ending_program()
+            self.ctrl.__exit__()
+            audiogram.make_audiogram(self.ctrl.config.filename,
+                                    self.ctrl.config.results_path)
+            self.run()
 
-if __name__ == '__main__':
-    # mixer.init()
-    try:
-        with AscendingMethod() as asc_method:
-            asc_method.run()
+    def start(self, socketio):
+        try:
+            with AscendingMethod() as asc_method:
+                self.run(socketio)
     
-    except KeyboardInterrupt:
-        # keluar setelah familiarization
-        sys.exit('\nInterrupted by user')
+        except KeyboardInterrupt:
+            # keluar setelah familiarization
+            sys.exit('\nInterrupted by user')
 
-    print("Finished!")
+        print("Finished!")
+

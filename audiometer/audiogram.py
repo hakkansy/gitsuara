@@ -49,7 +49,7 @@ def set_audiogram_parameters(dBHL, freqs, conduction, masking, earside,
     # membuat legend
     my_text = '0-25 dB  = Normal\n25-40 dB = Ringan\n40-55 dB = Sedang\n55-70 dB = Menengah\n70-90 dB = Parah\n>90 dB  = Akut'
     
-    props = dict(boxstyle='round', facecolor='ivory', alpha=0.15)  # bbox features
+    props = dict(boxstyle='round', facecolor='grey', alpha=0.15)  # bbox features
     left, width = .1, .5
     bottom, height = .25, .5
     ax.text(left, bottom, my_text, 

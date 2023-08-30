@@ -1,0 +1,19 @@
+{% extends "base.html"%}
+
+{% block konten%}
+
+    <h1>Selamat Datang di Data Mahasiswa</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas ipsa iure fugiat ipsum ad suscipit consequatur minus incidunt, tempora debitis dignissimos ab eveniet dolore reiciendis. Quos voluptates laborum ipsa rem!</p>
+
+    <h2>Data mahasiswa 2023</h2>
+    {% for data in data_mahasiswa %}
+    <ul>
+        <li>Nama : {{data.nama}}</li>
+        <li>Kelas : {{data.kelas}}</li>
+        <li>Alamat : {{data.alamat}}</li>
+    </ul>
+    
+    {% endfor %}
+
+{% endblock%}
+

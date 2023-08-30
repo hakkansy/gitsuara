@@ -26,7 +26,7 @@ def noalsaerr():
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 # SAVED_MODEL_PATH = "modelbaru3.h5"
-SAVED_MODEL_PATH = "model_augment_senin.h5"
+SAVED_MODEL_PATH = "model_baru4.h5"
 SAMPLES_TO_CONSIDER = 22050
 
 class _Keyword_Spotting_Service:
@@ -38,8 +38,6 @@ class _Keyword_Spotting_Service:
 
     model = None
     _mapping = [
-        "Kanan",
-        "Kiri",
         "Lanjutkan",
         "Stop",
         "Tidak",

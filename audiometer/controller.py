@@ -9,6 +9,7 @@ import random
 from audio_stream import Audio
 from recordsound import Keyword_Spotting_Service, get_prediction
 
+
 def config():
 
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
@@ -90,9 +91,8 @@ def config():
 class Controller:
 
     def __init__(self):
-
+        print("----------------------CONTROLLER SESSION INIT----------------------------------")
         self.config = config()
-
         if self.config.carry_on:
             self.csvfile = open(os.path.join(self.config.results_path,
                                                 self.config.carry_on), 'r+')
@@ -134,7 +134,7 @@ class Controller:
         self.stream = self.audio_class.get_stream()
         self.audio = self.audio_class.get_audio()
         
-    def clicktone(self, freq, current_level_dBHL, earside):
+    def clicktone(self, freq, current_level_dBHL, earside, socketio):
         if self.dBHL2dBFS(freq, current_level_dBHL) > 0:
             raise OverflowError
         self._rpd.clear()
@@ -149,13 +149,17 @@ class Controller:
         
         # memainkan suara
         print('Silahkan bicara')
+        socketio.emit('display_text',"Silahkan bicara")
         respon = get_prediction(self.kss,self.audio, self.stream)
         
         print('respon : ', respon)
+        socketio.emit('display_text', "respon : {respon}")
         click_down = respon == "Ya"
         print('desibel :', current_level_dBHL)
+        socketio.emit('display_text','desibel : {current_level_dBHL}')
         print('ear side: ', earside)
-        
+        socketio.emit('display_text','ear side: {earside}')
+
         if click_down:
             start = time.time()
             # self._rpd.wait_for_click_up()
@@ -231,39 +235,47 @@ class Controller:
     def __exit__(self, *args):
         time.sleep(0.1)
         self._rpd.__exit__()
-        self._audio.close()
+        # self._audio.close()
         self.csvfile.close()
+        
 
     # def input_name(self):
     #     self.nama = input()
     #     print('Inputkan nama:', self.nama)
     
-    def intro_program(self):
+    def intro_program(self, socketio):
         # print('Selamat datang di program uji pendengaran \nMohon inputkan nama')
         # nama = input()
         # print('Nama : ', nama)
+        print("INTRO PROGRAM SESSION")
               
         print('=============================')
         print('Selamat datang di program uji pendengaran \nUntuk memulai ucapkan Lanjutkan\nUntuk membatalkan ucapkan Tidak')
         print('=============================')
+        socketio.emit('display_text','Selamat datang di program uji pendengaran, Untuk memulai ucapkan Lanjutkan, Untuk membatalkan ucapkan Tidak')
 
         respon = ""        
         while respon != "Lanjutkan":
             # memainkan suara
             print('Silahkan bicara')
+            socketio.emit('display_text','Silahkan bicara')
             respon = get_prediction(self.kss,self.audio, self.stream)
             print('respon : ', respon)
+            socketio.emit('display_text','respon : {respon}')
             if respon == "Tidak":
                 exit()
 
     def ending_program(self):
         print('Program selesai \nUntuk mengakhiri program, ucapkan Stop')
+        # socketio.emit('display_text','Program selesai \nUntuk mengakhiri program, ucapkan Stop')
 
         respon = ""        
         while respon != "Stop":
             # memainkan suara
             print('Silahkan bicara')
+            # socketio.emit('display_text','Silahkan bicara')
             respon = get_prediction(self.kss,self.audio, self.stream)
-            print('respon : ', respon)        
+            print('respon : ', respon)    
+            # socketio.emit('display_text','respon : {respon}')    
 
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADS</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename='css/bootstrap.min.css') }}" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename='css/style.css') }}">  -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-xxl">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="#">SADS</a>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ url_for('data_mhs') }}">Tes Pendengaran</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">About</a>
+              </li>
+            </ul>
+            
+          </div>
+        </div>
+      </nav>
+
+      <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                {% block konten%}
+            
+                {% endblock%}
+            </div>
+            <div class="col-md-4">
+                <h1>Menu Lain</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error labore suscipit quas quia, ratione, ipsam saepe est doloremque commodi eum recusandae, voluptates fuga reprehenderit ipsum deserunt perspiciatis itaque! Doloremque, vel!</p>
+            </div>
+        </div>
+            
+      </div>
+    <!-- <nav>
+        <label class="logo">Flask</label>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('data_mhs') }}">Data Mahasiswa</a></li>
+            <li><a href="{{ url_for('alumni') }}">Alumni</a></li>
+            
+        </ul>  
+    </nav> -->   
+</body>
+</html>
+
+<script src="{{ url_for ('static', filename='js/popper.min.js') }}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="{{ url_for ('static', filename='js/bootstrap.min.js') }}" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>

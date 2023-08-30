@@ -129,7 +129,11 @@ if __name__ == "__main__":
     
     audio = pyaudio.PyAudio()
 
-    device_index = 38
+    device_index = 26
+    # bisa in out tapi predict jelek
+    # device_index = 25
+    # device_index = 30
+
 
     stream = audio.open(format=FORMAT, channels=CHANNELS,
             rate=RATE, input=True,input_device_index = device_index,
@@ -137,18 +141,18 @@ if __name__ == "__main__":
 
     # with noalsaerr():
     while(1):
-            # print("----------------------record device list---------------------")
-            # info = audio.get_host_api_info_by_index(0)
-            # numdevices = info.get('deviceCount')
-            # for i in range(0, numdevices):
-            #     if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-            #         print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
+        # print("----------------------record device list---------------------")
+        # info = audio.get_host_api_info_by_index(0)
+        # numdevices = info.get('deviceCount')
+        # for i in range(0, numdevices):
+        #     if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+        #         print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
 
-            # print("-------------------------------------------------------------")
+        # print("-------------------------------------------------------------")
 
-            # index = int(input())
-            
-            # print("recording via index "+str(index))
+        # index = int(input())
+        
+        # print("recording via index "+str(index))
 
         ui = input("tekan 1\n")
         if ui == "1":
@@ -183,4 +187,4 @@ if __name__ == "__main__":
             signal = spf.readframes(-1)
             signal = np.frombuffer(signal, dtype=np.int16)   
             copy= signal.copy()
-
+        
