@@ -4,16 +4,43 @@
     <title>SocketIO Text Display</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script type="text/javascript">
-        var socket = io.connect();
+        var socket_command = io.connect();
 
-        socket.on('display_text', function(data) {
+        socket_command.on('display_text', function(data) {
             document.getElementById('displayText').innerText = data;
         });
-        socket.emit("text_message")
+
+        socket_command.on('display_frequency', function(data) {
+            document.getElementById('displayDescFrequency').innerText = data;
+        });
+
+        socket_command.on('display_intensity', function(data) {
+            document.getElementById('displayDescIntensity').innerText = data;
+        });
+
+        socket_command.on('display_earside', function(data) {
+            document.getElementById('displayDescEarside').innerText = data;
+        });
+
+        socket_command.on('display_respondcommand', function(data) {
+            document.getElementById('displayRespondCommand').innerText = data;
+        });
+        
+        socket_command.on('display_respond', function(data) {
+            document.getElementById('displayRespond').innerText = data;
+        });
+        // socket_command.emit("text_message")
     </script>
 </head>
 <body>
     <h1>SocketIO Text Display</h1>
     <p id="displayText">Waiting for text...</p>
+    <br>
+    <p id="displayDescFrequency">Waiting for frequency...</p>
+    <p id="displayDescIntensity">Waiting for intensity...</p>
+    <p id="displayDescEarside">Waiting for earside...</p>
+    <br>
+    <!-- <p id="displayRespondCommand">Waiting for respond command...</p> -->
+    <p id="displayRespond">Waiting for respond...</p>
 </body>
 </html>

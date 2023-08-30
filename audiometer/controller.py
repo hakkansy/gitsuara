@@ -134,7 +134,7 @@ class Controller:
         self.stream = self.audio_class.get_stream()
         self.audio = self.audio_class.get_audio()
         
-    def clicktone(self, freq, current_level_dBHL, earside, socketio):
+    def clicktone(self, freq, current_level_dBHL, earside, socket_command):
         if self.dBHL2dBFS(freq, current_level_dBHL) > 0:
             raise OverflowError
         self._rpd.clear()
@@ -148,17 +148,26 @@ class Controller:
        
         
         # memainkan suara
+        time.sleep(1)
         print('Silahkan bicara')
-        socketio.emit('display_text',"Silahkan bicara")
+        socket_command.emit('display_respond',"Silahkan bicara")
         respon = get_prediction(self.kss,self.audio, self.stream)
         
         print('respon : ', respon)
-        socketio.emit('display_text', "respon : {respon}")
+        str(respon)
+        if respon=="Ulangi":
+            socket_command.emit('display_respond',respon)
+        socket_command.emit('display_respond',respon)
         click_down = respon == "Ya"
         print('desibel :', current_level_dBHL)
-        socketio.emit('display_text','desibel : {current_level_dBHL}')
+        str(current_level_dBHL)
+        socket_command.emit('display_intensity',current_level_dBHL)
         print('ear side: ', earside)
-        socketio.emit('display_text','ear side: {earside}')
+        str(earside)
+        if earside == "right":
+            socket_command.emit('display_earside', "Kanan")
+        if earside == "left":
+            socket_command.emit('display_earside', "Kiri")
 
         if click_down:
             start = time.time()
@@ -243,39 +252,47 @@ class Controller:
     #     self.nama = input()
     #     print('Inputkan nama:', self.nama)
     
-    def intro_program(self, socketio):
+    def intro_program(self, socket_command):
         # print('Selamat datang di program uji pendengaran \nMohon inputkan nama')
         # nama = input()
         # print('Nama : ', nama)
         print("INTRO PROGRAM SESSION")
               
         print('=============================')
-        print('Selamat datang di program uji pendengaran \nUntuk memulai ucapkan Lanjutkan\nUntuk membatalkan ucapkan Tidak')
+        print('Untuk memulai ucapkan Lanjutkan\nUntuk membatalkan ucapkan Tidak')
         print('=============================')
-        socketio.emit('display_text','Selamat datang di program uji pendengaran, Untuk memulai ucapkan Lanjutkan, Untuk membatalkan ucapkan Tidak')
+        socket_command.emit('display_text','Untuk memulai ucapkan Lanjutkan,\nUntuk membatalkan ucapkan Tidak')
 
         respon = ""        
         while respon != "Lanjutkan":
             # memainkan suara
+            time.sleep(1)
             print('Silahkan bicara')
-            socketio.emit('display_text','Silahkan bicara')
+            socket_command.emit('display_respond','Silahkan bicara')
             respon = get_prediction(self.kss,self.audio, self.stream)
             print('respon : ', respon)
-            socketio.emit('display_text','respon : {respon}')
+            str(respon)
+            if respon=="Ulangi":
+                socket_command.emit('display_respond',respon)
+            socket_command.emit('display_respond',respon)    
             if respon == "Tidak":
                 exit()
 
-    def ending_program(self):
+    def ending_program(self, socket_command):
         print('Program selesai \nUntuk mengakhiri program, ucapkan Stop')
-        # socketio.emit('display_text','Program selesai \nUntuk mengakhiri program, ucapkan Stop')
+        socket_command.emit('display_text','Program selesai \nUntuk mengakhiri program, ucapkan Stop')
 
         respon = ""        
         while respon != "Stop":
             # memainkan suara
+            time.sleep(1)
             print('Silahkan bicara')
-            # socketio.emit('display_text','Silahkan bicara')
+            socket_command.emit('display_respond','Silahkan bicara')
             respon = get_prediction(self.kss,self.audio, self.stream)
             print('respon : ', respon)    
-            # socketio.emit('display_text','respon : {respon}')    
+            str(respon)
+            if respon=="Ulangi":
+                socket_command.emit('display_respond',respon)
+            socket_command.emit('display_respond',respon)    
 
 

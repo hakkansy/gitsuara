@@ -37,25 +37,25 @@ logging.basicConfig(level=logging.DEBUG, format='%(levelname)s:%(message)s',
 
 class AscendingMethod:
 
-    def __init__(self, socketio):
+    def __init__(self, socket_command):
         self.ctrl = controller.Controller()
         self.current_level = 0
         self.click = True
         # self.data_output = data_output
-        self.socketio = socketio
+        self.socket_command = socket_command
         print("--------------------ASCENDING SESSION INIT----------------------")
        
     def decrement_click(self, level_decrement):
 
         self.current_level -= level_decrement
         self.click = self.ctrl.clicktone(self.freq, self.current_level,
-                                         self.earside, self.socketio)
+                                         self.earside, self.socket_command)
 
     def increment_click(self, level_increment):
 
         self.current_level += level_increment
         self.click = self.ctrl.clicktone(self.freq, self.current_level,
-                                         self.earside, self.socketio)
+                                         self.earside, self.socket_command)
 
     def familiarization(self):
         logging.info("Begin Familiarization")
@@ -64,7 +64,7 @@ class AscendingMethod:
         #       "via the arrow keys (left & right) on the keyboard.\nConfirm "
         #       "with the Space Key\n")
         print("\nContoh bunyi frekuensi tes\n")
-        self.socketio.emit('display_text',"Contoh bunyi frekuensi tes")
+        self.socket_command.emit('display_text',"Contoh bunyi frekuensi tes")
         
 
         self.current_level = self.ctrl.audibletone(
@@ -73,9 +73,10 @@ class AscendingMethod:
                              self.earside)
 
         print('Frekuensi tes : ',self.freq)
-        self.socketio.emit('display_text',self.freq)
+        str(self.freq)
+        self.socket_command.emit('display_frequency',self.freq)
         print("\nTes dimulai")
-        self.socketio.emit('display_text',"Tes dimulai")
+        self.socket_command.emit('display_text',"Tes dimulai\nUcapkan Ya jika mendengar suara")
         time.sleep(2)
         
         # self.ctrl.wait_for_click()
@@ -139,7 +140,7 @@ class AscendingMethod:
         if not self.ctrl.config.logging:
             logging.disable(logging.CRITICAL)
 
-        self.ctrl.intro_program(self.socketio)
+        self.ctrl.intro_program(self.socket_command)
 
         for self.earside in self.ctrl.config.earsides:
             for self.freq in self.ctrl.config.freqs:
@@ -165,16 +166,16 @@ class AscendingMethod:
 
     def __exit__(self, *args):
         while True:
-            self.ctrl.ending_program()
+            self.ctrl.ending_program(self.socket_command)
             self.ctrl.__exit__()
             audiogram.make_audiogram(self.ctrl.config.filename,
                                     self.ctrl.config.results_path)
             self.run()
 
-    def start(self, socketio):
+    def start(self, socket_command):
         try:
             with AscendingMethod() as asc_method:
-                self.run(socketio)
+                self.run(socket_command)
     
         except KeyboardInterrupt:
             # keluar setelah familiarization
