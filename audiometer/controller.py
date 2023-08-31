@@ -154,7 +154,7 @@ class Controller:
         respon = get_prediction(self.kss,self.audio, self.stream)
         
         print('respon : ', respon)
-        str(respon)
+        
         if respon=="Ulangi":
             socket_command.emit('display_respond',respon)
         socket_command.emit('display_respond',respon)
@@ -163,7 +163,7 @@ class Controller:
         str(current_level_dBHL)
         socket_command.emit('display_intensity',current_level_dBHL)
         print('ear side: ', earside)
-        str(earside)
+        
         if earside == "right":
             socket_command.emit('display_earside', "Kanan")
         if earside == "left":
@@ -261,7 +261,7 @@ class Controller:
         print('=============================')
         print('Untuk memulai ucapkan Lanjutkan\nUntuk membatalkan ucapkan Tidak')
         print('=============================')
-        socket_command.emit('display_text','Untuk memulai ucapkan Lanjutkan,\nUntuk membatalkan ucapkan Tidak')
+        socket_command.emit('display_information','Untuk memulai ucapkan Lanjutkan,\nUntuk membatalkan ucapkan Tidak')
 
         respon = ""        
         while respon != "Lanjutkan":
@@ -271,7 +271,7 @@ class Controller:
             socket_command.emit('display_respond','Silahkan bicara')
             respon = get_prediction(self.kss,self.audio, self.stream)
             print('respon : ', respon)
-            str(respon)
+            
             if respon=="Ulangi":
                 socket_command.emit('display_respond',respon)
             socket_command.emit('display_respond',respon)    
@@ -280,7 +280,7 @@ class Controller:
 
     def ending_program(self, socket_command):
         print('Program selesai \nUntuk mengakhiri program, ucapkan Stop')
-        socket_command.emit('display_text','Program selesai \nUntuk mengakhiri program, ucapkan Stop')
+        socket_command.emit('display_information','Program selesai \nUntuk mengakhiri program, ucapkan Stop')
 
         respon = ""        
         while respon != "Stop":
@@ -290,7 +290,7 @@ class Controller:
             socket_command.emit('display_respond','Silahkan bicara')
             respon = get_prediction(self.kss,self.audio, self.stream)
             print('respon : ', respon)    
-            str(respon)
+            
             if respon=="Ulangi":
                 socket_command.emit('display_respond',respon)
             socket_command.emit('display_respond',respon)    

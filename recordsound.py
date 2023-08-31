@@ -107,7 +107,7 @@ def Keyword_Spotting_Service():
     if _Keyword_Spotting_Service._instance is None:
         _Keyword_Spotting_Service._instance = _Keyword_Spotting_Service()
         _Keyword_Spotting_Service.model = tf.keras.models.load_model(SAVED_MODEL_PATH)
-        _Keyword_Spotting_Service._instance.predict('shi.wav')
+        _Keyword_Spotting_Service._instance.predict('sound_check.wav')
     return _Keyword_Spotting_Service._instance
 
 

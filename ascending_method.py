@@ -59,12 +59,14 @@ class AscendingMethod:
 
     def familiarization(self):
         logging.info("Begin Familiarization")
+        self.socket_command.emit('display_information',"Memulai familiarisasi")
+        time.sleep(1)
 
         # print("\nSet a clearly audible tone "
         #       "via the arrow keys (left & right) on the keyboard.\nConfirm "
         #       "with the Space Key\n")
         print("\nContoh bunyi frekuensi tes\n")
-        self.socket_command.emit('display_text',"Contoh bunyi frekuensi tes")
+        self.socket_command.emit('display_information',"Contoh bunyi frekuensi tes")
         
 
         self.current_level = self.ctrl.audibletone(
@@ -76,7 +78,7 @@ class AscendingMethod:
         str(self.freq)
         self.socket_command.emit('display_frequency',self.freq)
         print("\nTes dimulai")
-        self.socket_command.emit('display_text',"Tes dimulai\nUcapkan Ya jika mendengar suara")
+        self.socket_command.emit('display_information',"Tes dimulai\nUcapkan Ya jika mendengar suara")
         time.sleep(2)
         
         # self.ctrl.wait_for_click()

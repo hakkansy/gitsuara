@@ -49,3 +49,9 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+# Other files
+.dokumentasi/
+.templates_ORI/
+.model_augment_senin.h5
+

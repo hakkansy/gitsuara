@@ -4,61 +4,25 @@ from threading import Thread
 from ascending_method import AscendingMethod
 import sys
 
-# device_index = 29
+
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='threading')
-# main = AscendingMethod()
 
-# data_mahasiswa = [
-#     {
-#         "nama" : "hakkan syukri",
-#         'kelas' : 'trpl 4a',
-#         "alamat" : 'padang'
-#     },
-#     {
-#         "nama" : "james",
-#         'kelas' : 'trpl 4a',
-#         "alamat" : 'padang'
-#     },
-#     {
-#         "nama" : "jay",
-#         'kelas' : 'trpl 4a',
-#         "alamat" : 'padang'
-#     },
-# ]
-
-
-# @app.route("/")
-# def home():
-#     return render_template("home.html")
-
-# @app.route("/about")
-# def about():
-#     return render_template("about.html")
-
-# @app.route("/data_mahasiswa")
-# def data_mhs():
-#     return render_template("data_mahasiswa.html", data_mahasiswa = data_mahasiswa)
-
-# @app.route("/alumni")
-# def alumni():
-#     return render_template("alumni.html")
-
-
-# @app.route("/artikel/<info>")
-# def artikel_info(info):
-#     return "Halaman artikel "+ info
-
-
-# @socketio.on('button_start_tes')
-# def start_tes():
-#     tes = Thread(target=main.start(socketio))
-#     tes.daemon = True
-#     tes.start()
-
-@app.route('/')
+@app.route('/socket')
 def index():
-    return render_template('home.html')
+    return render_template('home_socket.html')
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/start_test")
+def start_test():
+    return render_template("start_test.html")
 
 def start():
     try:

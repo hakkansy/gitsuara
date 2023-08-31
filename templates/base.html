@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADS</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename='css/bootstrap.min.css') }}" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename='css/style.css') }}">  -->
+
+    <style>
+      body{
+        background-color: #ebe6e6;
+      }
+      .nav-item,.navbar-brand{
+        font-size: 20px;
+      }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-4">
+        <div class="container-xxl">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="#">SADS</a>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item home_nav">
+                <a class="nav-link" aria-current="page" href="{{ url_for('home') }}">Home</a>
+              </li>
+              <li class="nav-item test_nav">
+                <a class="nav-link" aria-current="page" href="{{ url_for('start_test') }}">Mulai Tes</a>
+              </li>
+              <li class="nav-item about_nav">
+                <a class="nav-link" aria-current="page" href="{{ url_for('about') }}">About</a>
+              </li>
+            </ul>            
+          </div>
+        </div>
+      </nav>
+
+      <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+              {% block konten%}
+            
+              {% endblock%}          
+            </div>
+        </div>
+            
+      </div>
+    </body>
+
+</html>
+
+<script src="{{ url_for ('static', filename='js/popper.min.js') }}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="{{ url_for ('static', filename='js/bootstrap.min.js') }}" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // make all currently active items inactive
+    // (you can delete this block if you know that there are no active items when loading the page)
+    document.querySelectorAll("a.nav-link.active").forEach(li => {
+        li.classList.remove("active");
+        li.attributes.removeNamedItem("aria-current");
+    });
+
+    // find the link to the current page and make it active
+    document.querySelectorAll(`a[href="${location.pathname}"].nav-link`).forEach(a => {
+        a.classList.add("active");
+        a.setAttribute("aria-current", "page");
+    });
+});
+</script>

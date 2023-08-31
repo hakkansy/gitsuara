@@ -1,46 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>SocketIO Text Display</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
-    <script type="text/javascript">
-        var socket_command = io.connect();
+{% extends "base.html"%}
 
-        socket_command.on('display_text', function(data) {
-            document.getElementById('displayText').innerText = data;
-        });
+{% block konten%}
+<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso12.css" /> 
 
-        socket_command.on('display_frequency', function(data) {
-            document.getElementById('displayDescFrequency').innerText = data;
-        });
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
 
-        socket_command.on('display_intensity', function(data) {
-            document.getElementById('displayDescIntensity').innerText = data;
-        });
+<!-- Inline CSS based on choices in "Settings" tab -->
+<style>.bootstrap-iso .form-group button, .bootstrap-iso form input.form-control, .bootstrap-iso form textarea.form-control, .bootstrap-iso form select.form-control{-webkit-border-radius: 0 !important;-moz-border-radius: 0; border-radius: 0;}.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: #000000}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}.bootstrap-iso form .input-group-addon {color:#555555; background-color: #eeeeee; border-radius: 0px; padding-left:12px}</style>
 
-        socket_command.on('display_earside', function(data) {
-            document.getElementById('displayDescEarside').innerText = data;
-        });
+<style>
+  .jumbotron{
+    margin-top: 30px;
+  }
+  p{
+    font-size: 20px;
+  }
+  img{
+    height: 100px;
+  }
+</style>
 
-        socket_command.on('display_respondcommand', function(data) {
-            document.getElementById('displayRespondCommand').innerText = data;
-        });
-        
-        socket_command.on('display_respond', function(data) {
-            document.getElementById('displayRespond').innerText = data;
-        });
-        // socket_command.emit("text_message")
-    </script>
-</head>
-<body>
-    <h1>SocketIO Text Display</h1>
-    <p id="displayText">Waiting for text...</p>
+<h4>Home</h4>
+
+
+<div class="jumbotron bg-warning p-md-5 rounded-4">
+    <h1 class="display-4">Tes Uji Pendengaran</h1>
+    <hr class="border border-danger border-2 opacity-50">
+    <p>Tes ini bertujuan untuk mengukur kemampuan mendengar telinga kanan dan telinga kiri anda.</p>
+    <p class="lead">
+      Perlu diingat bahwa ini adalah tes mandiri, harap lakukan konsultasi dengan dokter untuk hasil yang lebih akurat.
+    </p>
+    <img src="/static/img/aid.png" alt="">
     <br>
-    <p id="displayDescFrequency">Waiting for frequency...</p>
-    <p id="displayDescIntensity">Waiting for intensity...</p>
-    <p id="displayDescEarside">Waiting for earside...</p>
-    <br>
-    <!-- <p id="displayRespondCommand">Waiting for respond command...</p> -->
-    <p id="displayRespond">Waiting for respond...</p>
-</body>
-</html>
+    <p>Klik 'MULAI' untuk mengerjakan tes.</p>
+    <div class="d-grid gap-2 col-2">
+      <a class="btn btn-dark btn-lg" href="{{ url_for('start_test') }}"9 role="button">Mulai</a>
+    </div>
+  </div>
+
+
+{% endblock%}
+

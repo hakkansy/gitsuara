@@ -1,0 +1,101 @@
+{% extends "base.html"%}
+
+{% block konten%}
+
+<h4>Mulai Tes</h4>
+
+
+
+<style>
+    img{
+        height: 200px;
+    }
+    .input-group{
+        margin: auto;
+        width: 250px;
+    }
+    .help-block{
+        font-size: 20px;
+    }
+    .info, .description{
+        font-size: 18px;
+    }
+    .answer{
+        width: 250px;
+        font-size: 20px;
+    }
+    .mic{
+        height: 22px;
+    }
+</style>
+
+<script src="/static/js/socketio.js"></script>
+<script type="text/javascript">
+    var socket_command = io.connect();
+
+    socket_command.on('display_information', function(data) {
+        document.getElementById('displayInformation').innerText = data;
+    });
+
+    socket_command.on('display_frequency', function(data) {
+        document.getElementById('displayDescFrequency').innerText = data;
+    });
+
+    socket_command.on('display_intensity', function(data) {
+        document.getElementById('displayDescIntensity').innerText = data;
+    });
+
+    socket_command.on('display_earside', function(data) {
+        document.getElementById('displayDescEarside').innerText = data;
+    });
+
+    socket_command.on('display_respondcommand', function(data) {
+        document.getElementById('displayRespondCommand').innerText = data;
+    });
+    
+    socket_command.on('display_respond', function(data) {
+        document.getElementById('displayRespond').innerText = data;
+    });
+</script>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="bootstrap-iso bg-warning text-center m-2 p-5 rounded-4">
+                <h1 class="">Tes Pendengaran</h1>
+                <br>
+                <img src="/static/img/headphone.png" alt="">
+                <p class="description">Frekuensi <span id="displayDescFrequency">0</span>Hz <br>
+                    Intensitas <span id="displayDescIntensity">0</span>dB<br>
+                    Telinga <span id="displayDescEarside">-</span></p>
+                <p class="info" id="displayInformation">Perintah akan keluar di sini</p>
+                
+                <div class="d-flex justify-content-center">
+                    <div class="row answer text-center bg-white p-1 rounded-2 ">
+                        <div class="col-10"><p class="my-auto" id="displayRespond">..........</p></div>
+                        <div class="col-2 my-auto"><img class="mic" src="/static/img/microphone.png" alt=""></div>
+                    </div>    
+                </div>
+                
+                 <span class="help-block" id="displayInformation">
+                  
+                 </span>
+            </div>
+            
+        </div>
+        <div class="col-md-4 mt-4">
+            <h1>Bantuan Tes</h1>
+            <ol>
+                <li>Pasang Headphone di kedua telinga anda.</li>
+                <li>Pastikan Headphone menutupi telinga anda dengan baik.</li>
+                <li>Ucapkan suara perintah dengan jelas.</li>
+                <li>Jika tes sudah berakhir, hasil pdf berada di "/home/hendrick/audiometer old/results"</li>                
+            </ol>
+        </div>
+    
+    </div>
+
+
+
+
+{% endblock%}

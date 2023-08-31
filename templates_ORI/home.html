@@ -39,14 +39,14 @@
     <script type="text/javascript">
         var socket = io.connect();
 
-        socket.on('display_text', function(data) {
-            document.getElementById('displayText').innerText = data;
+        socket.on('display_information', function(data) {
+            document.getElementById('displayInformation').innerText = data;
         });
         socket.emit("text_message")
     </script>
 </head>
 <body>
     <h1>SocketIO Text Display</h1>
-    <p id="displayText">Waiting for text...</p>
+    <p id="displayInformation">Waiting for text...</p>
 </body>
 </html>
