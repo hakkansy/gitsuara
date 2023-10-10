@@ -17,7 +17,7 @@ def config():
         "--device", help='How to select your soundcard is '
         'shown in http://python-sounddevice.readthedocs.org/en/0.3.3/'
         '#sounddevice.query_devices', type=int, default=None)
-    parser.add_argument("--beginning-fam-level", type=float, default=60,
+    parser.add_argument("--beginning-fam-level", type=float, default=30,
                         help="in dBHL")
     parser.add_argument("--attack", type=float, default=30)
     parser.add_argument("--release", type=float, default=40)
@@ -42,17 +42,25 @@ def config():
     parser.add_argument("--small-level-decrement", type=float, default=10)
     parser.add_argument("--large-level-decrement", type=float, default=20)
     parser.add_argument("--start-level-familiar", type=float, default=-40)
+    parser.add_argument("--freqs", type=float, nargs='+', default=[250, 500,
+                        1000, 2000, 4000, 8000],
+                        help='The size '
+                        'and number of frequencies are shown in'
+                        'DIN60645-1 ch. 6.1.1. Their order'
+                        'are described in ISO8253-1 ch. 6.1')
+    # old frequency
     # parser.add_argument("--freqs", type=float, nargs='+', default=[1000, 1500,
     #                     2000, 3000, 4000, 6000, 8000, 750, 500, 250, 125],
     #                     help='The size '
     #                     'and number of frequencies are shown in'
     #                     'DIN60645-1 ch. 6.1.1. Their order'
     #                     'are described in ISO8253-1 ch. 6.1')
-    parser.add_argument("--freqs", type=float, nargs='+', default=[1000],
-                        help='The size '
-                        'and number of frequencies are shown in'
-                        'DIN60645-1 ch. 6.1.1. Their order'
-                        'are described in ISO8253-1 ch. 6.1')
+    # only play one frequency for both ear test
+    # parser.add_argument("--freqs", type=float, nargs='+', default=[1000],
+    #                     help='The size '
+    #                     'and number of frequencies are shown in'
+    #                     'DIN60645-1 ch. 6.1.1. Their order'
+    #                     'are described in ISO8253-1 ch. 6.1')
     parser.add_argument("--conduction", type=str, default='air', help="How "
                         "do you connect the headphones to the head? Choose "
                         " air or bone.")
@@ -186,7 +194,7 @@ class Controller:
             time.sleep(random.uniform(self.config.pause_time[0],
                                         self.config.pause_time[1]))
             return False
-
+        
     # def audibletone(self, freq, current_level_dBHL, earside):
     #     self.key = ''
     #     while self.key != 'space':
@@ -296,3 +304,8 @@ class Controller:
             socket_command.emit('display_respond',respon)    
 
 
+    def ulangi_ctrl(self, *args):
+        time.sleep(0.1)
+        self._rpd.__exit__()
+        # self._audio.close()
+        self.csvfile.close()

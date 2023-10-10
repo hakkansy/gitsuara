@@ -53,7 +53,7 @@ def set_audiogram_parameters(dBHL, freqs, conduction, masking, earside,
     left, width = .1, .5
     bottom, height = .25, .5
     ax.text(left, bottom, my_text, 
-            transform=ax.transAxes, fontsize=8, 
+            transform=ax.transAxes, fontsize=5, 
             horizontalalignment='left' ,verticalalignment='top', bbox=props)
         
     #  one octave on the frequency axis shall correspond

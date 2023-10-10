@@ -56,6 +56,11 @@
     socket_command.on('display_respond', function(data) {
         document.getElementById('displayRespond').innerText = data;
     });
+    
+    
+    
+
+    
 </script>
 
 <div class="container mt-4">
@@ -91,11 +96,20 @@
                 <li>Ucapkan suara perintah dengan jelas.</li>
                 <li>Jika tes sudah berakhir, hasil pdf berada di "/home/hendrick/audiometer old/results"</li>                
             </ol>
+            <button type="button" id="cancelled_button" class="btn btn-dark">Mulai Ulang</button>
         </div>
     
     </div>
 
-
+<script>
+    reset_button = document.getElementById('cancelled_button')
+    
+    
+    reset_button.addEventListener("click",()=>{
+        console.log(reset_button)
+        socket_command.emit('cancel', 'ini reset button')
+    })
+</script>
 
 
 {% endblock%}

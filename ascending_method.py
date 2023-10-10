@@ -78,7 +78,7 @@ class AscendingMethod:
         str(self.freq)
         self.socket_command.emit('display_frequency',self.freq)
         print("\nTes dimulai")
-        self.socket_command.emit('display_information',"Tes dimulai\nUcapkan Ya jika mendengar suara")
+        self.socket_command.emit('display_information',"Tes dimulai\nUcapkan Ya setelah 'Silahkan Berbicara' tampil dan jika mendengar suara")
         time.sleep(2)
         
         # self.ctrl.wait_for_click()
@@ -173,6 +173,7 @@ class AscendingMethod:
             audiogram.make_audiogram(self.ctrl.config.filename,
                                     self.ctrl.config.results_path)
             self.run()
+    
 
     def start(self, socket_command):
         try:
@@ -180,7 +181,6 @@ class AscendingMethod:
                 self.run(socket_command)
     
         except KeyboardInterrupt:
-            # keluar setelah familiarization
             sys.exit('\nInterrupted by user')
 
         print("Finished!")

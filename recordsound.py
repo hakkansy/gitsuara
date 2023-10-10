@@ -63,7 +63,7 @@ class _Keyword_Spotting_Service:
         predictions = self.model.predict(MFCCs)
         predicted_index = np.argmax(predictions)
         pred_value = predictions[0][predicted_index]
-        if pred_value > 0.8 :
+        if pred_value > 0.85 :
     
             predicted_keyword = self._mapping[predicted_index]
         else:
